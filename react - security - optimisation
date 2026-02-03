@@ -1,0 +1,18 @@
+security steps for react
+1. avoid using dangerouslySetHttml - it can lead to xss attack as it gives direct access to setting html without verifying anything
+2. sanitize input - before rendering and sending to server sanitize or verify properly
+use tools like DOMpurify for sanitize and zod yup for validation
+3. do not put sesitive information in .env file like client id and key
+4. authorization and authentication 
+5. https - to make sure encrytion for communications and cors - to make sure no unauthorised website can acces it, for cross browser communication for rest api
+6. csp - content security policy - added on http response header from server.
+
+
+optimisation
+1. code splitting
+2. lazy loading
+3. virtualisation-  loading data only visible in view pprt - react window, react-virtualisation
+4. memoization
+5. check in profile dev tool- for unnecessery rerendwrs
+6. performance tool - for component to take more time for loading
+7. debounce and throttle
