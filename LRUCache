@@ -1,0 +1,41 @@
+
+class LRUCache {
+    constructor(limit){
+        this.limit = limit;
+        this.cache = new Map();
+    }
+    
+    set(key, value){
+        if(this.limit <= this.cache.size){
+            let leastUsed = 0;
+            let leastUsedKey;
+            this.cache.forEach((value,key) => {
+                if(leastUsed >= this.cache.get(key)?.used){
+                    leastUsed = this.cache.get(key)?.used;
+                    leastUsedKey = key;
+                }
+            })
+            this.cache.delete(leastUsedKey);
+        }
+        this.cache.set(key, {value, used: 0});
+    }
+    
+    get(key){
+        const {value, used} = this.cache.get(key);
+        this.cache.set(key, {value: value, used: used+1})
+        return this.cache.get(key);
+    }
+}
+
+
+const newCache = new LRUCache(3);
+newCache.set("name", "test");
+newCache.set("name1", "test1");
+
+newCache.set("name2", "test2");
+console.log(newCache.cache)
+console.log(newCache.get('name1'))
+console.log(newCache.get('name'))
+console.log(newCache.cache)
+newCache.set("name3", "test3");
+console.log(newCache.cache)
