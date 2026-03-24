@@ -17,3 +17,7 @@ console.log(Object.is("5", 5));   // false
 console.log(true == 1);           // true   (boolean coerced to number)
 console.log(true === 1);          // false
 console.log(Object.is(true, 1));  // false
+
+
+// isNaN(n) -> checks for n to be NaN, it allows converting, like false => 0, "0"=> 0, then it evaluates
+// Number.isNaN(n) -> does the same but do not allow conversion.
