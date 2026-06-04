@@ -1,41 +1,26 @@
-
 class LRUCache {
-    constructor(limit){
-        this.limit = limit;
-        this.cache = new Map();
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map(); // maintains insertion order
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) return -1;
+    const value = this.cache.get(key);
+    // Move key to end to mark as recently used
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.cache.delete(key); // remove old position
+    } else if (this.cache.size >= this.capacity) {
+      // Evict least recently used (first item in Map)
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
     }
-    
-    set(key, value){
-        if(this.limit <= this.cache.size){
-            let leastUsed = 0;
-            let leastUsedKey;
-            this.cache.forEach((value,key) => {
-                if(leastUsed >= this.cache.get(key)?.used){
-                    leastUsed = this.cache.get(key)?.used;
-                    leastUsedKey = key;
-                }
-            })
-            this.cache.delete(leastUsedKey);
-        }
-        this.cache.set(key, {value, used: 0});
-    }
-    
-    get(key){
-        const {value, used} = this.cache.get(key);
-        this.cache.set(key, {value: value, used: used+1})
-        return this.cache.get(key);
-    }
+    this.cache.set(key, value);
+  }
 }
-
-
-const newCache = new LRUCache(3);
-newCache.set("name", "test");
-newCache.set("name1", "test1");
-
-newCache.set("name2", "test2");
-console.log(newCache.cache)
-console.log(newCache.get('name1'))
-console.log(newCache.get('name'))
-console.log(newCache.cache)
-newCache.set("name3", "test3");
-console.log(newCache.cache)
